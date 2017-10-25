@@ -10,7 +10,7 @@
 
 // Required modules
 var mysql = require('mysql');
-var database_conf = require('./database/database-conf')
+var database_conf = require('../database/database-conf');
 
 /*
  * 'Repository': This class holds an open connection to a database
