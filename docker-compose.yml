@@ -1,5 +1,14 @@
 version: '2'  
-services:  
+services:
+  gateway:
+    build: ./api_gateway
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    depends_on:
+      - users-service
+      - meetings-service
   users-service:
     build: ./users_service
     ports:
