@@ -26,6 +26,4 @@ echo "<<  Setting up initial data...  >>"
 docker exec -i users_db mysql \
             -uroot \
             -p123 \
-            users < setup.sql  
-
-# echo "<<  MySQL container should be running now. Port 3306 should be exposed on container  >>"
+            users < setup.sql 

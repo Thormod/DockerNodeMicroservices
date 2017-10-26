@@ -5,8 +5,8 @@ services:
     ports:
       - "8123:8123"
     depends_on:
-      - db
+      - user_db
     environment:
-      - DATABASE_HOST=db
-  db:
-    build: ./database
+      - DATABASE_HOST=user_db
+  user_db:
+    build: ./users_service/database
