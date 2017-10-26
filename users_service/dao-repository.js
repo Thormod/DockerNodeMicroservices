@@ -10,7 +10,7 @@
 
 // Required modules
 var mysql = require('mysql');
-var database_conf = require('../database/database-conf');
+var database_conf = require('./config/config')
 
 /*
  * 'Repository': This class holds an open connection to a database
@@ -23,18 +23,17 @@ class Repository {
 
     getUsers() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT email, phone_number FROM ' +
-                database_conf.users_database.table, (err, results) => {
-                    if (err) {
-                        return reject(new Error("An error occured getting the users: " + err));
-                    }
-                    resolve((results || []).map((user) => {
-                        return {
-                            email: user.email,
-                            phone_number: user.phone_number
-                        };
-                    }));
-                });
+            this.connection.query('SELECT email, phone_number FROM directory', (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured getting the users: " + err));
+                }
+                resolve((results || []).map((user) => {
+                    return {
+                        email: user.email,
+                        phone_number: user.phone_number
+                    };
+                }));
+            });
         });
     }
 
