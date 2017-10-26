@@ -4,9 +4,29 @@ services:
     build: ./users_service
     ports:
       - "8123:8123"
+    expose:
+      - "8123"
     depends_on:
       - user_db
     environment:
       - DATABASE_HOST=user_db
   user_db:
     build: ./users_service/database
+    ports:
+      - "3306:3306"
+  meetings-service:
+    build: ./meetings_service
+    ports:
+      - "8124:8124"
+    expose:
+      - "8124"
+    depends_on:
+      - meetings_db
+    external_links:
+      - meetings_db:mysql
+    environment:
+      - DATABASE_HOST=meetings_db
+  meetings_db:
+    build: ./meetings_service/database
+    ports:
+      - "3307:3306"
