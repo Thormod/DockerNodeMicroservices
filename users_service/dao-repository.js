@@ -21,6 +21,22 @@ class Repository {
         this.connection = connection;
     }
 
+    saveUser(user) {
+        return new Promise((resolve, reject) => {
+
+            var sql = "INSERT INTO directory (email, phone_number) VALUES (?, ?)";
+            var inserts = [user.name, user.phone_number];
+            sql = mysql.format(sql, inserts);
+            this.connection.query(
+                sql, [user], (err, results) => {
+                    if (err) {
+                        return reject(new Error("An error occured saving the user: " + err));
+                    }
+                    resolve(results);
+                });
+        });
+    }
+
     getUsers() {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT email, phone_number FROM directory', (err, results) => {

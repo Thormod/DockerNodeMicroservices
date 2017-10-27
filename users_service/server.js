@@ -6,6 +6,7 @@
 // Required modules
 var express = require('express');
 var morgan = require('morgan');
+var bodyParser = require('body-parser');
 
 module.exports.start = (options) => {
     return new Promise((resolve, reject) => {
@@ -15,6 +16,9 @@ module.exports.start = (options) => {
         //  Create the app and start logging.
         var app = express();
         app.use(morgan('dev'));
+
+        app.use(bodyParser.json());
+        app.use(bodyParser.urlencoded({ extended: true }));
 
         //  Add the APIs to the app.
         require('./api/users')(app, options);

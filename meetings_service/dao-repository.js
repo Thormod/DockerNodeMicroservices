@@ -21,6 +21,22 @@ class Repository {
         this.connection = connection;
     }
 
+    saveMeeting(meeting) {
+        return new Promise((resolve, reject) => {
+
+            var sql = "INSERT INTO meetings (meeting_name, meeting_date) VALUES (?, ?)";
+            var inserts = [meeting.meeting_name, meeting.meeting_date];
+            sql = mysql.format(sql, inserts);
+            this.connection.query(
+                sql, [meeting], (err, results) => {
+                    if (err) {
+                        return reject(new Error("An error occured saving the user: " + err));
+                    }
+                    resolve(results);
+                });
+        });
+    }
+
     getMeetings() {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT meeting_name,meeting_date FROM meetings', (err, results) => {

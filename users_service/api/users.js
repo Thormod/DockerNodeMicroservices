@@ -17,6 +17,13 @@ module.exports = (app, options) => {
         }).catch(next);
     });
 
+    app.post('/users/', (req, res) => {
+        var name = req.body.name;
+        var phone_number = req.body.phone_number;
+        var user = { name: name, phone_number: phone_number };
+        options.repository.saveUser(user).then(() => res.status(200));
+    });
+
     app.get('/search', (req, res) => {
         //  Get the email.
         var email = req.query.email;

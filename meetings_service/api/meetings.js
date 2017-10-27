@@ -16,4 +16,11 @@ module.exports = (app, options) => {
             }));
         }).catch(next);
     });
+
+    app.post('/meetings/', (req, res) => {
+        var meeting_name = req.body.meeting_name;
+        var meeting_date = req.body.meeting_date;
+        var meeting = { meeting_name: meeting_name, meeting_date: meeting_date };
+        options.repository.saveMeeting(meeting).then(() => res.status(200));
+    });
 }
