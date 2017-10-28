@@ -23,9 +23,8 @@ class Repository {
 
     saveMeeting(meeting) {
         return new Promise((resolve, reject) => {
-
-            var sql = "INSERT INTO meetings (meeting_name, meeting_date) VALUES (?, ?)";
-            var inserts = [meeting.meeting_name, meeting.meeting_date];
+            var sql = "INSERT INTO meetings (meeting_name, meeting_date, meeting_subject) VALUES (?, ?, ?)";
+            var inserts = [meeting.meeting_name, meeting.meeting_date, meeting.meeting_subject];
             sql = mysql.format(sql, inserts);
             this.connection.query(
                 sql, [meeting], (err, results) => {
@@ -39,14 +38,15 @@ class Repository {
 
     getMeetings() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT meeting_name,meeting_date FROM meetings', (err, results) => {
+            this.connection.query('SELECT meeting_name,meeting_date,meeting_subject FROM meetings', (err, results) => {
                 if (err) {
                     return reject(new Error("An error occured getting the meetings: " + err));
                 }
                 resolve((results || []).map((meeting) => {
                     return {
                         name: meeting.meeting_name,
-                        date: meeting.meeting_date
+                        date: meeting.meeting_date,
+                        subject: meeting.meeting_subject
                     };
                 }));
             });
