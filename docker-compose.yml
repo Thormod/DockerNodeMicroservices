@@ -59,3 +59,20 @@ services:
     build: ./assistance_service/database
     ports:
       - "3308:3306"
+  #grades-service
+  grades-service:
+    build: ./grades_service
+    ports:
+      - "8126:8126"
+    expose:
+      - "8126"
+    depends_on:
+      - grades_db
+    external_links:
+      - grades_db:mysql
+    environment:
+      - DATABASE_HOST=grades_db
+  grades_db:
+    build: ./grades_service/database
+    ports:
+      - "3309:3306"
