@@ -1,5 +1,6 @@
 version: '2'  
 services:
+  #api-gateway
   gateway:
     build: ./api_gateway
     ports:
@@ -9,6 +10,7 @@ services:
     depends_on:
       - users-service
       - meetings-service
+  #users-servcive
   users-service:
     build: ./users_service
     ports:
@@ -23,6 +25,7 @@ services:
     build: ./users_service/database
     ports:
       - "3306:3306"
+  #meetings-service
   meetings-service:
     build: ./meetings_service
     ports:
@@ -39,3 +42,20 @@ services:
     build: ./meetings_service/database
     ports:
       - "3307:3306"
+  #assistance-service
+  assistance-service:
+    build: ./assistance_service
+    ports:
+      - "8125:8125"
+    expose:
+      - "8125"
+    depends_on:
+      - assistance_db
+    external_links:
+      - assistance_db:mysql
+    environment:
+      - DATABASE_HOST=assistance_db
+  assistance_db:
+    build: ./assistance_service/database
+    ports:
+      - "3308:3306"

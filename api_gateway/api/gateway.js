@@ -8,17 +8,23 @@
 //Required modules
 var httpProxy = require('http-proxy');
 var apiProxy = new httpProxy.createProxyServer();
-var serverOne = 'http://192.168.99.100:8123',
-    ServerTwo = 'http://192.168.99.100:8124';
+var userServer = 'http://192.168.99.100:8123',
+    meeetingsServer = 'http://192.168.99.100:8124',
+    assistanceServer = 'http://192.168.99.100:8125';
 
 module.exports = (app, options) => {
     app.all("/users/*", function(req, res) {
-        console.log('redirecting to Server1');
-        apiProxy.web(req, res, { target: serverOne });
+        console.log('redirecting to userServer');
+        apiProxy.web(req, res, { target: userServer });
     });
 
     app.all("/meetings/*", function(req, res) {
-        console.log('redirecting to Server2');
-        apiProxy.web(req, res, { target: ServerTwo });
+        console.log('redirecting to meeetingsServer');
+        apiProxy.web(req, res, { target: meeetingsServer });
+    });
+
+    app.all("/assistance/*", function(req, res) {
+        console.log('redirecting to assistanceServer');
+        apiProxy.web(req, res, { target: assistanceServer });
     });
 }
