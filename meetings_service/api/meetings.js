@@ -10,6 +10,7 @@ module.exports = (app, options) => {
         options.repository.getMeetings().then((meetings) => {
             res.status(200).send(meetings.map((meeting) => {
                 return {
+                    meeting_id: meeting.meeting_id,
                     name: meeting.name,
                     date: meeting.date,
                     subject: meeting.subject

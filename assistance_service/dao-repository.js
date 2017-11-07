@@ -38,12 +38,13 @@ class Repository {
 
     getAssists() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT meeting_id, user_id FROM assistance', (err, results) => {
+            this.connection.query('SELECT assistance_id, meeting_id, user_id FROM assistance', (err, results) => {
                 if (err) {
                     return reject(new Error("An error occured getting the assistance: " + err));
                 }
                 resolve((results || []).map((assistance) => {
                     return {
+                        assistance_id: assistance.assistance_id,
                         user_id: assistance.meeting_id,
                         meeting_id: assistance.user_id
                     };

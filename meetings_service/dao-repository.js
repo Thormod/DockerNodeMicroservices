@@ -38,12 +38,13 @@ class Repository {
 
     getMeetings() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT meeting_name,meeting_date,meeting_subject FROM meetings', (err, results) => {
+            this.connection.query('SELECT meeting_id, meeting_name,meeting_date,meeting_subject FROM meetings', (err, results) => {
                 if (err) {
                     return reject(new Error("An error occured getting the meetings: " + err));
                 }
                 resolve((results || []).map((meeting) => {
                     return {
+                        meeting_id: meeting.meeting_id,
                         name: meeting.meeting_name,
                         date: meeting.meeting_date,
                         subject: meeting.meeting_subject

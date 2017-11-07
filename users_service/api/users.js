@@ -10,6 +10,7 @@ module.exports = (app, options) => {
         options.repository.getUsers().then((users) => {
             res.status(200).send(users.map((user) => {
                 return {
+                    user_id: user.user_id,
                     email: user.email,
                     phoneNumber: user.phone_number
                 };

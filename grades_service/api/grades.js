@@ -10,6 +10,7 @@ module.exports = (app, options) => {
         options.repository.getGrades().then((grades) => {
             res.status(200).send(grades.map((grade) => {
                 return {
+                    grade_id: grade.grade_id,
                     qualifier_id: grade.qualifier_id,
                     qualified_id: grade.qualified_id,
                     assistance_id: grade.assistance_id,

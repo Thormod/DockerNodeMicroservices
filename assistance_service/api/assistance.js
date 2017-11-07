@@ -10,6 +10,7 @@ module.exports = (app, options) => {
         options.repository.getAssists().then((assists) => {
             res.status(200).send(assists.map((assistance) => {
                 return {
+                    assistance_id: assistance_id.assistance_id,
                     user_id: assistance.user_id,
                     meeting_id: assistance.meeting_id
                 };

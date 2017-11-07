@@ -39,12 +39,13 @@ class Repository {
 
     getUsers() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT email, phone_number FROM directory', (err, results) => {
+            this.connection.query('SELECT user_id, email, phone_number FROM directory', (err, results) => {
                 if (err) {
                     return reject(new Error("An error occured getting the users: " + err));
                 }
                 resolve((results || []).map((user) => {
                     return {
+                        user_id: user.user_id,
                         email: user.email,
                         phone_number: user.phone_number
                     };

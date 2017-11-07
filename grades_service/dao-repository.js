@@ -38,12 +38,13 @@ class Repository {
 
     getGrades() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT qualifier_id, qualified_id, assistance_id, score, comment FROM grades', (err, results) => {
+            this.connection.query('SELECT grade_id, qualifier_id, qualified_id, assistance_id, score, comment FROM grades', (err, results) => {
                 if (err) {
                     return reject(new Error("An error occured getting the grades: " + err));
                 }
                 resolve((results || []).map((grades) => {
                     return {
+                        grade_id: grade.grade_id,
                         qualifier_id: grades.meeting_id,
                         qualified_id: grades.user_id,
                         assistance_id: grades.assistance_id,
