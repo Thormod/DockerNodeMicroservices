@@ -10,7 +10,7 @@ module.exports = (app, options) => {
         options.repository.getAssists().then((assists) => {
             res.status(200).send(assists.map((assistance) => {
                 return {
-                    assistance_id: assistance_id.assistance_id,
+                    assistance_id: assistance.assistance_id,
                     user_id: assistance.user_id,
                     meeting_id: assistance.meeting_id
                 };
@@ -22,6 +22,6 @@ module.exports = (app, options) => {
         var user_id = req.body.user_id;
         var meeting_id = req.body.meeting_id;
         var assistance = { user_id: user_id, meeting_id: meeting_id };
-        options.repository.saveAssistance(assistance).then(() => res.status(200));
+        options.repository.saveAssistance(assistance).then(() => res.sendStatus(200));
     });
 }

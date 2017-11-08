@@ -36,6 +36,20 @@ class Repository {
         });
     }
 
+    deleteMeeting(meeting_id) {
+        return new Promise((resolve, reject) => {
+            var sql = "DELETE from meetings WHERE meeting_id = ?";
+            var inserts = [meeting_id];
+            sql = mysql.format(sql, inserts);
+            this.connection.query(sql, (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured deleting the meeting: " + err));
+                }
+                resolve(results);
+            });
+        });
+    }
+
     getMeetings() {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT meeting_id, meeting_name,meeting_date,meeting_subject FROM meetings', (err, results) => {
@@ -50,6 +64,26 @@ class Repository {
                         subject: meeting.meeting_subject
                     };
                 }));
+            });
+        });
+    }
+
+    getMeetingById(meeting_id) {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT meeting_id, meeting_name,meeting_date,meeting_subject FROM meetings WHERE meeting_id = ?', [meeting_id], (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured getting the meeting: " + err));
+                }
+                if (results.length === 0) {
+                    resolve(undefined);
+                } else {
+                    resolve({
+                        meeting_id: results[0].meeting_id,
+                        name: results[0].meeting_name,
+                        date: results[0].meeting_date,
+                        subject: results[0].meeting_subject
+                    });
+                }
             });
         });
     }

@@ -23,9 +23,8 @@ class Repository {
 
     saveUser(user) {
         return new Promise((resolve, reject) => {
-
-            var sql = "INSERT INTO directory (email, phone_number) VALUES (?, ?)";
-            var inserts = [user.name, user.phone_number];
+            var sql = "INSERT INTO directory (name, email, phone_number) VALUES (?, ?, ?)";
+            var inserts = [user.name, user.email, user.phone_number];
             sql = mysql.format(sql, inserts);
             this.connection.query(
                 sql, [user], (err, results) => {
@@ -37,19 +36,69 @@ class Repository {
         });
     }
 
+    getLastUserId() {
+        return new Promise((resolve, reject) => {
+            var sql = "SELECT user_id FROM directory ORDER BY user_id DESC LIMIT 1";
+            this.connection.query(sql, (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured getting the user_id: " + err));
+                }
+                resolve((results || []).map((user) => {
+                    return {
+                        user_id: user.user_id,
+                    };
+                }));
+            });
+        });
+    }
+
+    deleteUser(userId) {
+        return new Promise((resolve, reject) => {
+            var sql = "DELETE from directory WHERE user_id = ?";
+            var inserts = [userId];
+            sql = mysql.format(sql, inserts);
+            this.connection.query(sql, (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured deleting the user: " + err));
+                }
+                resolve(results);
+            });
+        });
+    }
+
     getUsers() {
         return new Promise((resolve, reject) => {
-            this.connection.query('SELECT user_id, email, phone_number FROM directory', (err, results) => {
+            this.connection.query('SELECT user_id, name, email, phone_number FROM directory', (err, results) => {
                 if (err) {
                     return reject(new Error("An error occured getting the users: " + err));
                 }
                 resolve((results || []).map((user) => {
                     return {
                         user_id: user.user_id,
+                        name: user.name,
                         email: user.email,
                         phone_number: user.phone_number
                     };
                 }));
+            });
+        });
+    }
+
+    getUserById(user_id) {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT user_id, email, phone_number FROM directory WHERE user_id = ?', [user_id], (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured getting the user: " + err));
+                }
+                if (results.length === 0) {
+                    resolve(undefined);
+                } else {
+                    resolve({
+                        user_id: results[0].user_id,
+                        email: results[0].email,
+                        phone_number: results[0].phone_number
+                    });
+                }
             });
         });
     }

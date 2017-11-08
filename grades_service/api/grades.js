@@ -28,6 +28,6 @@ module.exports = (app, options) => {
         var score = req.body.score;
         var comment = req.body.comment;
         var grades = { qualifier_id: qualifier_id, qualified_id: qualified_id, assistance_id: assistance_id, score: score, comment: comment };
-        options.repository.saveGrades(grades).then(() => res.status(200));
+        options.repository.saveGrades(grades).then(() => res.sendStatus(200));
     });
 }

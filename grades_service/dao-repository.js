@@ -44,7 +44,7 @@ class Repository {
                 }
                 resolve((results || []).map((grades) => {
                     return {
-                        grade_id: grade.grade_id,
+                        grade_id: grades.grade_id,
                         qualifier_id: grades.meeting_id,
                         qualified_id: grades.user_id,
                         assistance_id: grades.assistance_id,
