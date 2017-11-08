@@ -3,6 +3,7 @@
 ## Setup
 For running locally the project you need to have installed on your local machine the following software:
  * Docker
+ * Docker-compose
  * Node Js
  
  After installed, you need to execute the following steps:
@@ -14,6 +15,18 @@ git clone https://github.com/Thormod/DockerNodeMicroservices.git
  ```
  npm install
  ```
+ * Then you need to change the url from the ´api_gateway/api/gateway.js´with your docker ip or localhost if is the case:
+ ``` javascript
+ var url = 'http://192.168.99.100';
+ ```
+ * Change also the test url ´test/test.js´:
+ ``` javascript
+ const url = 'http://192.168.99.100:8080';
+  ```
+ * If you need to know your docker ip, run the following command:
+ ```
+ docker-machine ip
+  ```
  * Then you need to build the project via docker-compose, you need to be in the project root (./) - This step should take a few minutes because it is downloading all docker external images:
  ```
  docker-compose build
