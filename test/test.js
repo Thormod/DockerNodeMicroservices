@@ -85,3 +85,43 @@ describe('Meetings', function() {
             });
     });
 });
+
+describe('Grades', function() {
+    it('should list ALL grades on /grades/ GET', (done) => {
+        chai.request(url)
+            .get('/grades/')
+            .end(function(err, res) {
+                console.log(res.body)
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+    it('should list a SINGLE grade on /grades/<id> GET', (done) => {
+        chai.request(url)
+            .get('/grades/1')
+            .end(function(err, res) {
+                console.log(res.body)
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+    it('should add a SINGLE grade on /grades/ POST', (done) => {
+        chai.request(url)
+            .post('/grades/')
+            .send({ qualifier_id: "1", qualified_id: "2", assistance_id: "1", score: "2.5", comment: "Estaba dormido" })
+            .end(function(err, res) {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+    it('should delete a SINGLE grade on /grades/<id> DELETE', (done) => {
+        chai.request(url)
+            .delete('/grades/1')
+            .end(function(err, res) {
+                expect(err).to.be.null;
+                expect(res).to.have.status(200);
+                done();
+            });
+    });
+});

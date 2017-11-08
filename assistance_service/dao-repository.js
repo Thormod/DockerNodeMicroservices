@@ -36,6 +36,20 @@ class Repository {
         });
     }
 
+    deleteAssistance(assistance_id) {
+        return new Promise((resolve, reject) => {
+            var sql = "DELETE from assistance WHERE assistance_id = ?";
+            var inserts = [assistance_id];
+            sql = mysql.format(sql, inserts);
+            this.connection.query(sql, (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured deleting the assistance: " + err));
+                }
+                resolve(results);
+            });
+        });
+    }
+
     getAssists() {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT assistance_id, meeting_id, user_id FROM assistance', (err, results) => {
@@ -45,10 +59,29 @@ class Repository {
                 resolve((results || []).map((assistance) => {
                     return {
                         assistance_id: assistance.assistance_id,
-                        user_id: assistance.meeting_id,
-                        meeting_id: assistance.user_id
+                        meeting_id: assistance.meeting_id,
+                        user_id: assistance.user_id
                     };
                 }));
+            });
+        });
+    }
+
+    getAssistanceById(assistance_id) {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT assistance_id, meeting_id, user_id FROM assistance WHERE assistance_id = ?', [assistance_id], (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured getting the assistance: " + err));
+                }
+                if (results.length === 0) {
+                    resolve(undefined);
+                } else {
+                    resolve({
+                        assistance_id: results[0].assistance_id,
+                        meeting_id: results[0].meeting_id,
+                        user_id: results[0].user_id
+                    });
+                }
             });
         });
     }

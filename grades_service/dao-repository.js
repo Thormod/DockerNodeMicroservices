@@ -36,6 +36,20 @@ class Repository {
         });
     }
 
+    deleteGrade(grade_id) {
+        return new Promise((resolve, reject) => {
+            var sql = "DELETE from grades WHERE grade_id = ?";
+            var inserts = [grade_id];
+            sql = mysql.format(sql, inserts);
+            this.connection.query(sql, (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured deleting the grade: " + err));
+                }
+                resolve(results);
+            });
+        });
+    }
+
     getGrades() {
         return new Promise((resolve, reject) => {
             this.connection.query('SELECT grade_id, qualifier_id, qualified_id, assistance_id, score, comment FROM grades', (err, results) => {
@@ -52,6 +66,28 @@ class Repository {
                         comment: grades.comment
                     };
                 }));
+            });
+        });
+    }
+
+    getGradeById(grade_id) {
+        return new Promise((resolve, reject) => {
+            this.connection.query('SELECT grade_id, qualifier_id, qualified_id, assistance_id, score, comment FROM grades WHERE grade_id = ?', [grade_id], (err, results) => {
+                if (err) {
+                    return reject(new Error("An error occured getting the meeting: " + err));
+                }
+                if (results.length === 0) {
+                    resolve(undefined);
+                } else {
+                    resolve({
+                        grade_id: results[0].grade_id,
+                        qualifier_id: results[0].meeting_id,
+                        qualified_id: results[0].user_id,
+                        assistance_id: results[0].assistance_id,
+                        score: results[0].score,
+                        comment: results[0].comment
+                    });
+                }
             });
         });
     }
