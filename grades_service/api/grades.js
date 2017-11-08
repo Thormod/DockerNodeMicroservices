@@ -22,7 +22,7 @@ module.exports = (app, options) => {
     });
 
     app.delete('/grades/:grade_id', (req, res) => {
-        var meeting_id = req.param("grade_id");
+        var grade_id = req.param("grade_id");
         options.repository.deleteGrade(grade_id).then(() => res.sendStatus(200));
     });
 

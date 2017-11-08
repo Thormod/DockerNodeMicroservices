@@ -1,4 +1,4 @@
-# EAFIT: Desarrollo Basado En Componentes
+# EAFIT: Microservices example
 
 ## Setup
 For running locally the project you need to have installed on your local machine the following software:
