@@ -98,7 +98,7 @@ describe('Grades', function() {
     });
     it('should list a SINGLE grade on /grades/<id> GET', (done) => {
         chai.request(url)
-            .get('/grades/1')
+            .get('/grades/0')
             .end(function(err, res) {
                 console.log(res.body)
                 expect(res).to.have.status(200);

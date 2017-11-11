@@ -15,11 +15,11 @@ git clone https://github.com/Thormod/DockerNodeMicroservices.git
  ```
  npm install
  ```
- * Then you need to change the url from the ´api_gateway/api/gateway.js´with your docker ip or localhost if is the case:
+ * Then you need to change the 'url' variable from the ´api_gateway/api/gateway.js´ file with your docker ip or localhost if is the case:
  ``` javascript
  var url = 'http://192.168.99.100';
  ```
- * Change also the test url ´test/test.js´:
+ * Change also the 'url' variable inside the test ´test/test.js´ file:
  ``` javascript
  const url = 'http://192.168.99.100:8080';
   ```
@@ -35,6 +35,36 @@ git clone https://github.com/Thormod/DockerNodeMicroservices.git
  ```
  docker-compose up
  ```
+ * For running the mocha tests you need to type the following command:
+ ```
+npm test
+ ``` 
+ ### Description of the microservices
+ 
+  #### Users
+  ```
+/users/
+ ```
+It highlights the fields that a user will contain in the system such as: name, username and password
+
+ #### Meetings
+  ```
+/meetings/
+ ```
+It highlights the fields that will contain a meeting in the system as: Subject, location, start date, end date, link
+
+  #### Grades
+  ```
+/grades/
+ ```
+It highlights the fields that will contain a grade in the system as: qualifier, qualified, assistance, score, comment
+
+  #### Assistance
+  ```
+/assistance/
+ ```
+It highlights the fields that will contain the assistance record in the system as: meeting, user
+
 ### Stuff used to make this:
 
  * [markdown-it](https://github.com/markdown-it/markdown-it) for Markdown parsing
